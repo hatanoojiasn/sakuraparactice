@@ -1,7 +1,7 @@
 #include <windows.h>
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 {
-	if (msg == WM_LBUTTONUP)
+	switch (msg)
 	{
 		MessageBox(hwnd, TEXT("Ç±ÇÍÇ≈èIÇÌÇËÇæÅIÅI"), TEXT("kitty"), MB_ICONINFORMATION);
 		exit(0);
