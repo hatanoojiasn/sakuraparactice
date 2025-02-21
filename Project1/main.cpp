@@ -28,7 +28,7 @@ int WINAPI WinMain
 		hwnd = CreateWindow
 		(
 			TEXT("KITTY"), TEXT("KITTY ON YOUR LAP"),
-			WS_OVERLAPPEDWINDOW,
+			WS_CAPTION| WS_VISIBLE,
 			100, 100, 200, 200, NULL, NULL,
 			hinstance, NULL
 		);
