@@ -3,6 +3,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 {
 	switch (msg)
 	{
+		int is_createWindow;
+		LPCREATESTRUCT lpcswnd;
+	case WM_CREATE://ウィンドウが作成されたときの処理
+		lpcswnd = (LPCREATESTRUCT)lparam;//ウィンドウ作成時の構造体を取得する
+		is_createWindow = MessageBox(hwnd, TEXT("ウィンドウを作成しますか？"), lpcswnd->lpszName, MB_YESNO | MB_ICONQUESTION);//ウィンドウを作成するかどうかを尋ねる
+		if (is_createWindow == IDYES) return 0;//ウィンドウを作成する
+		else return -1;//ウィンドウを作成しない
 	case WM_CLOSE://ウィンドウが閉じられたときの処理
 		return 0;//ウィンドウを閉じないようにする
 	case WM_RBUTTONDOWN://右クリックされたときの処理 右クリックしたときにウィンドウを破棄する
