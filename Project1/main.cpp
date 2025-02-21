@@ -3,8 +3,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 {
 	switch (msg)
 	{
+	case WM_CLOSE://ウィンドウが閉じられたときの処理
+		return 0;//ウィンドウを閉じないようにする
+	case WM_RBUTTONDOWN://右クリックされたときの処理 右クリックしたときにウィンドウを破棄する
+		DestroyWindow(hwnd);//ウィンドウを破棄する
+		PostQuitMessage(0);//メッセージキューに終了メッセージを送る
+		return 0;
+	/*case WM_DESTROY:
 		MessageBox(hwnd, TEXT("これで終わりだ！！"), TEXT("kitty"), MB_ICONINFORMATION);
-		exit(0);
+		PostQuitMessage(0);//メッセージキューに終了メッセージを送る
+		return 0;*/
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
 }
@@ -20,7 +28,7 @@ int WINAPI WinMain
 	HWND hwnd;//winハンドル
 	WNDCLASS wc;//windowクラス
 	//ここからウィンドウクラスの変数を宣言して初期化する
-	wc.style = CS_HREDRAW && CS_VREDRAW;//ウィンドウクラスの基本クラスの指定
+	wc.style = CS_HREDRAW | CS_VREDRAW;//ウィンドウクラスの基本クラスの指定
 	wc.lpfnWndProc = WndProc;//ウィンドウプロ―ジャを登録
 	wc.cbClsExtra = NULL;
 	wc.cbWndExtra = NULL;
@@ -37,19 +45,14 @@ int WINAPI WinMain
 		hwnd = CreateWindow
 		(
 			TEXT("KITTY"), TEXT("KITTY ON YOUR LAP"),
-			WS_CAPTION| WS_VISIBLE,
+			WS_OVERLAPPEDWINDOW| WS_VISIBLE,
 			100, 100, 200, 200, NULL, NULL,
 			hinstance, NULL
 		);
 		MSG msg;//メッセージ構造体
 	//メッセージループ
 		if (hwnd == NULL)return 0;	
-		while (TRUE)
-		{
-			GetMessage(&msg, NULL, 0, 0);//メッセージを取得する受け取るメッセージは制限しない
-			if (msg.message == WM_LBUTTONUP) break; //左ボタンが押されたら終了
+		while (	GetMessage(&msg, NULL, 0, 0))//メッセージを取得する受け取るメッセージは制限しない
 			DispatchMessage(&msg);//メッセージを処理する
-		}
-		return 0;
-
+		return msg.wParam;
 }
