@@ -53,7 +53,8 @@ int WINAPI WinMain
 		(
 			TEXT("KITTY"), TEXT("KITTY ON YOUR LAP"),
 			WS_OVERLAPPEDWINDOW| WS_VISIBLE,
-			100, 100, 200, 200, NULL, NULL,
+			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,//ウィンドウの位置とサイズをデフォルトにする
+			NULL, NULL,//親ウィンドウとメニューハンドルを指定しない
 			hinstance, NULL
 		);
 		MSG msg;//メッセージ構造体
