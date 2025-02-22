@@ -5,6 +5,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	LPCREATESTRUCT lpcswnd;
 	HDC hdc;
 	LPCTSTR str = TEXT("mojimoji");//文字列を定義する
+	PAINTSTRUCT ps;
 	switch (msg)
 	{
 		
@@ -27,6 +28,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		hdc = GetDC(hwnd);//デバイスコンテキストを取得する
 		TextOut(hdc, 10, 10, str, lstrlen(str));
 		ReleaseDC(hwnd, hdc);
+		return 0;
+	case WM_PAINT:
+		hdc = BeginPaint(hwnd,&ps);
+		TextOut(hdc, 10, 10, str, lstrlen(str));
+		EndPaint(hwnd, &ps);
 		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
