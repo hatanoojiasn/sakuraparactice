@@ -5,6 +5,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	LPCREATESTRUCT lpcswnd;
 	HDC hdc;
 	LPCTSTR str = TEXT("mojimoji");//•¶Žš—ñ‚ð’è‹`‚·‚é
+	TEXTMETRIC tm;
 	PAINTSTRUCT ps;
 	switch (msg)
 	{
@@ -31,7 +32,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
+		GetTextMetrics(hdc, &tm);
 		TextOut(hdc, 10, 10, str, lstrlen(str));
+		TextOut(hdc, 10, 10 + tm.tmHeight, str, lstrlen(str));
 		EndPaint(hwnd, &ps);
 		return 0;
 	}
