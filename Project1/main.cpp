@@ -1,10 +1,13 @@
 #include <windows.h>
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 {
+	int is_createWindow;
+	LPCREATESTRUCT lpcswnd;
+	HDC hdc;
+	LPCTSTR str = TEXT("mojimoji");//文字列を定義する
 	switch (msg)
 	{
-		int is_createWindow;
-		LPCREATESTRUCT lpcswnd;
+		
 	case WM_CREATE://ウィンドウが作成されたときの処理
 		lpcswnd = (LPCREATESTRUCT)lparam;//ウィンドウ作成時の構造体を取得する
 		is_createWindow = MessageBox(hwnd, TEXT("ウィンドウを作成しますか？"), lpcswnd->lpszName, MB_YESNO | MB_ICONQUESTION);//ウィンドウを作成するかどうかを尋ねる
@@ -16,10 +19,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		DestroyWindow(hwnd);//ウィンドウを破棄する
 		PostQuitMessage(0);//メッセージキューに終了メッセージを送る
 		return 0;
-	/*case WM_DESTROY:
-		MessageBox(hwnd, TEXT("これで終わりだ！！"), TEXT("kitty"), MB_ICONINFORMATION);
-		PostQuitMessage(0);//メッセージキューに終了メッセージを送る
-		return 0;*/
+		/*case WM_DESTROY:
+			MessageBox(hwnd, TEXT("これで終わりだ！！"), TEXT("kitty"), MB_ICONINFORMATION);
+			PostQuitMessage(0);//メッセージキューに終了メッセージを送る
+			return 0;*/
+	case WM_LBUTTONDOWN://左クリックされたときの処理
+		hdc = GetDC(hwnd);//デバイスコンテキストを取得する
+		TextOut(hdc, 10, 10, str, lstrlen(str));
+		ReleaseDC(hwnd, hdc);
+		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
 }
