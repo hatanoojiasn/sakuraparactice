@@ -29,6 +29,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	TEXTMETRIC tm;
 	PAINTSTRUCT ps;
 	RECT rect;
+	HPEN hpen;
 	switch (msg)
 	{
 		
@@ -57,9 +58,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
-		DrawLine(hdc, 10,10, 200,200, RGB(0, 255, 0));
-		Rectangle(hdc, 30, 30, 180, 180);
+		hpen = CreatePen(PS_DASH, 0, 0xff << 16);
+		SelectObject(hdc, hpen);
+		Rectangle(hdc, 10, 10, 200, 50);
 		Ellipse(hdc, 30, 30, 180, 180);
+		EndPaint(hwnd, &ps);
+		DeleteObject(hpen);
 		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
