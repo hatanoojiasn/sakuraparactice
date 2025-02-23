@@ -30,6 +30,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	PAINTSTRUCT ps;
 	RECT rect;
 	HPEN hpen;
+	HBRUSH hbrush;
 	switch (msg)
 	{
 		
@@ -58,12 +59,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
-		hpen = CreatePen(PS_DASH, 0, 0xff << 16);
-		SelectObject(hdc, hpen);
+		hbrush = CreateSolidBrush(RGB(0, 255, 0));
+		SelectObject(hdc, hbrush);
 		Rectangle(hdc, 10, 10, 200, 50);
+		DeleteObject(hbrush);
+		
+		hbrush = CreateSolidBrush( RGB(255, 0, 0));
+		SelectObject(hdc, hbrush);
 		Ellipse(hdc, 30, 30, 180, 180);
+		DeleteObject(hbrush);
 		EndPaint(hwnd, &ps);
-		DeleteObject(hpen);
+		DeleteObject(hbrush);
 		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
