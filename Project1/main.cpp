@@ -33,7 +33,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
 		GetTextMetrics(hdc, &tm);
+		SetTextColor(hdc, 0xff << 16);
 		TextOut(hdc, 10, 10, str, lstrlen(str));
+		SetTextColor(hdc, RGB(255, 0, 0));
 		TextOut(hdc, 10, 10 + tm.tmHeight, str, lstrlen(str));
 		EndPaint(hwnd, &ps);
 		return 0;
