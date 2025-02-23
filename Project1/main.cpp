@@ -4,7 +4,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	int is_createWindow;
 	LPCREATESTRUCT lpcswnd;
 	HDC hdc;
-	LPCTSTR str = TEXT("Government of the people , by the people , for the people");//文字列を定義する
+	LPCTSTR str = TEXT("Kitty on your lap");//文字列を定義する
 	TEXTMETRIC tm;
 	PAINTSTRUCT ps;
 	RECT rect;
@@ -12,6 +12,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	{
 		
 	case WM_CREATE://ウィンドウが作成されたときの処理
+		hdc = GetDC(hwnd);
+		SetTextColor(hdc, RGB(255, 0, 0));
+		ReleaseDC(hwnd, hdc);
 		lpcswnd = (LPCREATESTRUCT)lparam;//ウィンドウ作成時の構造体を取得する
 		is_createWindow = MessageBox(hwnd, TEXT("ウィンドウを作成しますか？"), lpcswnd->lpszName, MB_YESNO | MB_ICONQUESTION);//ウィンドウを作成するかどうかを尋ねる
 		if (is_createWindow == IDYES) return 0;//ウィンドウを作成する
@@ -34,7 +37,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
 		GetClientRect(hwnd, &rect);
-		DrawText(hdc, str, -1, &rect, DT_CENTER | DT_WORDBREAK);
+		TextOut(hdc,10,10,str,lstrlen(str));
 		EndPaint(hwnd, &ps);
 		return 0;
 	}
@@ -52,7 +55,7 @@ int WINAPI WinMain
 	HWND hwnd;//winハンドル
 	WNDCLASS wc;//windowクラス
 	//ここからウィンドウクラスの変数を宣言して初期化する
-	wc.style = CS_HREDRAW | CS_VREDRAW;//ウィンドウクラスの基本クラスの指定
+	wc.style = CS_HREDRAW | CS_VREDRAW|CS_OWNDC;//ウィンドウクラスの基本クラスの指定
 	wc.lpfnWndProc = WndProc;//ウィンドウプロ―ジャを登録
 	wc.cbClsExtra = NULL;
 	wc.cbWndExtra = NULL;
