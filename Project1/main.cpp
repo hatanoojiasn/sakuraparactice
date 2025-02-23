@@ -4,9 +4,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	int is_createWindow;
 	LPCREATESTRUCT lpcswnd;
 	HDC hdc;
-	LPCTSTR str = TEXT("mojimoji");//•¶Žš—ñ‚ð’è‹`‚·‚é
+	LPCTSTR str = TEXT("Government of the people , by the people , for the people");//•¶Žš—ñ‚ð’è‹`‚·‚é
 	TEXTMETRIC tm;
 	PAINTSTRUCT ps;
+	RECT rect;
 	switch (msg)
 	{
 		
@@ -32,11 +33,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
-		GetTextMetrics(hdc, &tm);
-		SetTextColor(hdc, 0xff << 16);
-		TextOut(hdc, 10, 10, str, lstrlen(str));
-		SetTextColor(hdc, RGB(255, 0, 0));
-		TextOut(hdc, 10, 10 + tm.tmHeight, str, lstrlen(str));
+		GetClientRect(hwnd, &rect);
+		DrawText(hdc, str, -1, &rect, DT_CENTER | DT_WORDBREAK);
 		EndPaint(hwnd, &ps);
 		return 0;
 	}
