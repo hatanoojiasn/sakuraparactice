@@ -59,17 +59,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
-		hbrush = CreateSolidBrush(RGB(0, 255, 0));
-		SelectObject(hdc, hbrush);
+		SelectObject(hdc, CreateHatchBrush(HS_CROSS,RGB(0, 255, 0)));
 		Rectangle(hdc, 10, 10, 200, 50);
-		DeleteObject(hbrush);
-		
-		hbrush = CreateSolidBrush( RGB(255, 0, 0));
-		SelectObject(hdc, hbrush);
+		DeleteObject(SelectObject(hdc, CreateHatchBrush(HS_DIAGCROSS, RGB(0, 255, 0))));
 		Ellipse(hdc, 30, 30, 180, 180);
-		DeleteObject(hbrush);
+		DeleteObject(SelectObject(hdc,GetStockObject(WHITE_BRUSH)));
 		EndPaint(hwnd, &ps);
-		DeleteObject(hbrush);
 		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
