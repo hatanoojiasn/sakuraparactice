@@ -15,6 +15,11 @@ void DrawPixcelLine(HDC hdc, int x, int y, int num,COLORREF color)
 		SetPixel(hdc, x, y + i,color);
 	}
 }
+void DrawLine(HDC hdc, int startx, int starty, int endx, int endy, COLORREF color)
+{
+	MoveToEx(hdc, startx, starty, NULL);
+	LineTo(hdc, endx, endy);
+}
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 {
 	int is_createWindow;
@@ -53,6 +58,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
 		DrawPixcelLine(hdc, 10, 10, 100, 0xff << 16);
+		DrawLine(hdc, 10, 110, 110, 110, RGB(0, 255, 0));
 		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
