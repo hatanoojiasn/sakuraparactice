@@ -57,8 +57,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
-		DrawPixcelLine(hdc, 10, 10, 100, 0xff << 16);
-		DrawLine(hdc, 10, 110, 110, 110, RGB(0, 255, 0));
+		DrawLine(hdc, 10,10, 200,200, RGB(0, 255, 0));
+		Rectangle(hdc, 30, 30, 180, 180);
+		Ellipse(hdc, 30, 30, 180, 180);
 		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
