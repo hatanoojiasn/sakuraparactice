@@ -8,6 +8,13 @@ BOOL TextOutClear(HDC hdc, int x, int y, LPCTSTR str, COLORREF color)
 	RestoreDC(hdc, -1);//デバイスコンテキストの状態を復元する
 	return TRUE;
 }
+void DrawPixcelLine(HDC hdc, int x, int y, int num,COLORREF color)
+{
+	for (int i = 0; i < num; i++)
+	{
+		SetPixel(hdc, x, y + i,color);
+	}
+}
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 {
 	int is_createWindow;
@@ -45,10 +52,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
-		GetTextMetrics(hdc, &tm);
-		TextOutClear(hdc,0,0,str,RGB(0,255,0));
-		TextOut(hdc, 0, tm.tmHeight, str, lstrlen(str));
-		EndPaint(hwnd, &ps);
+		DrawPixcelLine(hdc, 10, 10, 100, 0xff << 16);
 		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wp, lparam);
