@@ -1,4 +1,13 @@
 #include <windows.h>
+BOOL TextOutClear(HDC hdc, int x, int y, LPCTSTR str, COLORREF color)
+{
+	if (hdc == NULL)return FALSE;
+	SaveDC(hdc);//デバイスコンテキストの状態を保存する
+	SetTextColor(hdc, color);
+	TextOut(hdc, x, y, str, lstrlen(str));
+	RestoreDC(hdc, -1);//デバイスコンテキストの状態を復元する
+	return TRUE;
+}
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 {
 	int is_createWindow;
@@ -36,8 +45,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lparam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd,&ps);
-		GetClientRect(hwnd, &rect);
-		TextOut(hdc,10,10,str,lstrlen(str));
+		GetTextMetrics(hdc, &tm);
+		TextOutClear(hdc,0,0,str,RGB(0,255,0));
+		TextOut(hdc, 0, tm.tmHeight, str, lstrlen(str));
 		EndPaint(hwnd, &ps);
 		return 0;
 	}
